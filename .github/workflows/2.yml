@@ -1,16 +1,16 @@
 # https://examplefile.com/file-download/453
 # https://master.dl.sourceforge.net/project/crdroid/daisy/6.x/crDroidAndroid-10.0-20210703-daisy-v6.19.zip?viasf=1"
-name: Download crDroid and Create Release + Mega Upload
+name: Download crDroid and Upload to Mega
 
 on:
   workflow_dispatch:  # Manual trigger
 
 jobs:
-  download-and-release:
+  download-and-upload:
     runs-on: ubuntu-latest
     steps:
 
-      # 1️⃣ Checkout repo (optional, needed for release action)
+      # 1️⃣ Checkout repo (optional)
       - name: Checkout Repo
         uses: actions/checkout@v3
 
@@ -19,7 +19,7 @@ jobs:
         run: |
           curl -L -o crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
 
-      # 4️⃣ Delete existing file on Mega.nz (if any)
+      # 3️⃣ Delete existing file on Mega.nz (if any)
       - name: Delete existing file on Mega.nz
         uses: Difegue/action-megacmd@master
         with:
@@ -28,7 +28,7 @@ jobs:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
 
-      # 5️⃣ Upload to Mega.nz
+      # 4️⃣ Upload to Mega.nz
       - name: Upload to Mega.nz
         uses: Difegue/action-megacmd@master
         with:
@@ -37,7 +37,7 @@ jobs:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
 
-      # 6️⃣ Generate public Mega share link
+      # 5️⃣ Generate public Mega share link
       - name: Get Mega Share Link
         uses: Difegue/action-megacmd@master
         id: mega_link
@@ -47,7 +47,7 @@ jobs:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
 
-      # 7️⃣ Output Mega link to workflow
+      # 6️⃣ Output Mega link to workflow
       - name: Show Mega Share Link
         run: |
           echo "Mega Share Link: ${{ steps.mega_link.outputs.stdout }}"
