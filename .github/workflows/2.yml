@@ -19,14 +19,6 @@ jobs:
         run: |
           curl -L -o crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
 
-      # 3️⃣ Delete existing file on Mega.nz (if any)
-      - name: Delete existing file on Mega.nz
-        uses: Difegue/action-megacmd@master
-        with:
-          args: rm /crDroid-daisy-v6.19.zip
-        env:
-          USERNAME: ${{ secrets.MEGA_EMAIL }}
-          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
 
       # 4️⃣ Upload to Mega.nz
       - name: Upload to Mega.nz
