@@ -1,26 +1,25 @@
-# .github/workflows/fetch-crdroid.yml
-name: fetch crDroid firmware
+name: Upload crDroid
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * 0'   # প্রতি রবিবার রাতে একবার run করবে (যেমন weekly)
 
 jobs:
-  download:
+  upload:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Download crDroid zip
-      run: |
-        curl -L "https://master.dl.sourceforge.net/project/crdroid/daisy/6.x/crDroidAndroid-10.0-20210703-daisy-v6.19.zip?viasf=1" -o crDroid-daisy-v6.19.zip
+      - name: Download crDroid zip
+        run: |
+          curl -L -o crDroid-daisy-v6.19.zip "https://master.dl.sourceforge.net/project/crdroid/daisy/6.x/crDroidAndroid-10.0-20210703-daisy-v6.19.zip?viasf=1"
 
-    - name: Commit and push
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "actions@github.com"
-        git add crDroid-daisy-v6.19.zip
-        git commit -m "Update crDroid daisy v6.19" || echo "No changes"
-        git push
+      - name: Commit and push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update crDroid daisy v6.19"
+          branch: main
+          file_pattern: "crDroid-daisy-v6.19.zip"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          token: ${{ secrets.GH_TOKEN }}
