@@ -17,7 +17,7 @@ jobs:
       # 2️⃣ Download crDroid zip from SourceForge
       - name: Download crDroid Daisy v6.19
         run: |
-          curl -L -o crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
+          curl -L -o crDroid-daisy-v6.19.zip "https://master.dl.sourceforge.net/project/crdroid/daisy/6.x/crDroidAndroid-10.0-20210703-daisy-v6.19.zip?viasf=1""
 
 
       # 4️⃣ Upload to Mega.nz
