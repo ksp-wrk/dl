@@ -19,18 +19,6 @@ jobs:
         run: |
           curl -L -o crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
 
-      # 3️⃣ Create GitHub Release and upload zip
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v6.19
-          name: crDroid Daisy v6.19
-          files: crDroid-daisy-v6.19.zip
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       # 4️⃣ Delete existing file on Mega.nz (if any)
       - name: Delete existing file on Mega.nz
         uses: Difegue/action-megacmd@master
