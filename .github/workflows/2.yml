@@ -16,13 +16,15 @@ jobs:
       # 2️⃣ Download crDroid zip from SourceForge
       - name: Download crDroid Daisy v6.19
         run: |
-          curl -L -o ksp-crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
+          curl -L -o k-crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
 
       # 4️⃣ Install MegaCMD CLI
       - name: Install MegaCMD
         run: |
           sudo apt-get update
-          sudo apt-get install -y megatools jq
+          sudo apt-get install -y wget jq
+          wget https://mega.nz/linux/MEGAsync/xUbuntu_22.04/amd64/megacmd_1.10.0-1.0_amd64.deb
+          sudo dpkg -i megacmd_1.10.0-1.0_amd64.deb || sudo apt-get install -f -y
 
       # 5️⃣ Upload to Mega.nz
       - name: Upload to Mega.nz
@@ -30,10 +32,13 @@ jobs:
           MEGA_EMAIL: ${{ secrets.MEGA_EMAIL }}
           MEGA_PASSWORD: ${{ secrets.MEGA_PASSWORD }}
         run: |
-          # Upload the zip file
-          megaput --username "$MEGA_EMAIL" --password "$MEGA_PASSWORD" --replace ksp-crDroid-daisy-v6.19.zip /
+          # Login
+          mega-login "$MEGA_EMAIL" "$MEGA_PASSWORD"
           
-          # Generate public link
-          LINK=$(megals --username "$MEGA_EMAIL" --password "$MEGA_PASSWORD" /ksp-crDroid-daisy-v6.19.zip --json | jq -r '.[0].link')
+          # Upload zip with overwrite
+          mega-put k-crDroid-daisy-v6.19.zip /Root/ --overwrite
+          
+          # Generate public share link
+          LINK=$(mega-export /Root/k-crDroid-daisy-v6.19.zip)
           echo "Mega Share Link: $LINK"
           echo "MEGA_SHARE_LINK=$LINK" >> $GITHUB_ENV
