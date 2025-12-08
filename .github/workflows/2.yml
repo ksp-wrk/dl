@@ -19,16 +19,37 @@ jobs:
         run: |
           curl -L -o crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
 
-      # 4️⃣ Upload to Mega.nz using Difegue/action-megacmd
-      - name: Upload to Mega.nz
+      # 3️⃣ Create GitHub Release and upload zip
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v6.19
+          name: crDroid Daisy v6.19
+          files: crDroid-daisy-v6.19.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 4️⃣ Delete existing file on Mega.nz (if any)
+      - name: Delete existing file on Mega.nz
         uses: Difegue/action-megacmd@master
         with:
-          args: put crDroid-daisy-v6.19.zip / --overwrite
+          args: rm /crDroid-daisy-v6.19.zip
         env:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
 
-      # 5️⃣ Generate public Mega share link
+      # 5️⃣ Upload to Mega.nz
+      - name: Upload to Mega.nz
+        uses: Difegue/action-megacmd@master
+        with:
+          args: put crDroid-daisy-v6.19.zip /
+        env:
+          USERNAME: ${{ secrets.MEGA_EMAIL }}
+          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
+
+      # 6️⃣ Generate public Mega share link
       - name: Get Mega Share Link
         uses: Difegue/action-megacmd@master
         id: mega_link
@@ -38,9 +59,7 @@ jobs:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
 
-      # 6️⃣ Output Mega link to workflow
+      # 7️⃣ Output Mega link to workflow
       - name: Show Mega Share Link
         run: |
           echo "Mega Share Link: ${{ steps.mega_link.outputs.stdout }}"
-
-
