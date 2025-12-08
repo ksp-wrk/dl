@@ -1,6 +1,6 @@
 # https://examplefile.com/file-download/453
 # https://master.dl.sourceforge.net/project/crdroid/daisy/6.x/crDroidAndroid-10.0-20210703-daisy-v6.19.zip?viasf=1"
-name: Download crDroid and Create Release
+name: Download crDroid and Create Release + Mega Upload
 
 on:
   workflow_dispatch:  # Manual trigger
@@ -9,6 +9,7 @@ jobs:
   download-and-release:
     runs-on: ubuntu-latest
     steps:
+
       # 1️⃣ Checkout repo (optional, needed for release action)
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -16,28 +17,42 @@ jobs:
       # 2️⃣ Download crDroid zip from SourceForge
       - name: Download crDroid Daisy v6.19
         run: |
-          curl -L -o k-crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
-      
-      # 4️⃣ Install MegaCMD via snap
-      - name: Install MEGAcmd
+          curl -L -o crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
+
+      # 3️⃣ Create GitHub Release and upload zip
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v6.19
+          name: crDroid Daisy v6.19
+          files: crDroid-daisy-v6.19.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 4️⃣ Upload to Mega.nz using Difegue/action-megacmd
+      - name: Upload to Mega.nz
+        uses: Difegue/action-megacmd@master
+        with:
+          args: put crDroid-daisy-v6.19.zip / --overwrite
+        env:
+          USERNAME: ${{ secrets.MEGA_EMAIL }}
+          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
+
+      # 5️⃣ Generate public Mega share link
+      - name: Get Mega Share Link
+        uses: Difegue/action-megacmd@master
+        id: mega_link
+        with:
+          args: export /crDroid-daisy-v6.19.zip
+        env:
+          USERNAME: ${{ secrets.MEGA_EMAIL }}
+          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
+
+      # 6️⃣ Output Mega link to workflow
+      - name: Show Mega Share Link
         run: |
-          sudo apt-get update
-          sudo apt-get install -y snapd
-          sudo snap install mega-cmd
-          
-      - name: Upload to MEGA
-        uses: Difegue/action-megacmd@master
-        with:
-          args: put k-crDroid-daisy-v6.19.zip / # upload to root
-        env:
-          USERNAME: ${{ secrets.MEGA_EMAIL }}
-          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
-      - name: Get public link
-        uses: Difegue/action-megacmd@master
-        with:
-          args: export /k-crDroid-daisy-v6.19.zip
-        env:
-          USERNAME: ${{ secrets.MEGA_EMAIL }}
-          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
+          echo "Mega Share Link: ${{ steps.mega_link.outputs.stdout }}"
 
 
