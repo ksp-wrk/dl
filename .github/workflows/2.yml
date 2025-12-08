@@ -17,28 +17,22 @@ jobs:
       - name: Download crDroid Daisy v6.19
         run: |
           curl -L -o k-crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
-
-      # 4️⃣ Install MegaCMD CLI
-      - name: Install MegaCMD
+      
+      # 4️⃣ Install MegaCMD via snap
+      - name: Install MEGAcmd
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget jq
-          wget https://mega.nz/linux/MEGAsync/xUbuntu_22.04/amd64/megacmd_1.10.0-1.0_amd64.deb
-          sudo dpkg -i megacmd_1.10.0-1.0_amd64.deb || sudo apt-get install -f -y
-
+          sudo apt-get install -y snapd
+          sudo snap install mega-cmd
+      
       # 5️⃣ Upload to Mega.nz
       - name: Upload to Mega.nz
         env:
           MEGA_EMAIL: ${{ secrets.MEGA_EMAIL }}
           MEGA_PASSWORD: ${{ secrets.MEGA_PASSWORD }}
         run: |
-          # Login
           mega-login "$MEGA_EMAIL" "$MEGA_PASSWORD"
-          
-          # Upload zip with overwrite
           mega-put k-crDroid-daisy-v6.19.zip /Root/ --overwrite
-          
-          # Generate public share link
           LINK=$(mega-export /Root/k-crDroid-daisy-v6.19.zip)
           echo "Mega Share Link: $LINK"
           echo "MEGA_SHARE_LINK=$LINK" >> $GITHUB_ENV
