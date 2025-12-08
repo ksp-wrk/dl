@@ -16,7 +16,7 @@ jobs:
       # 2️⃣ Download crDroid zip from SourceForge
       - name: Download crDroid Daisy v6.19
         run: |
-          curl -L -o crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
+          curl -L -o ksp-crDroid-daisy-v6.19.zip "https://examplefile.com/file-download/453"
 
       # 4️⃣ Install MegaCMD CLI
       - name: Install MegaCMD
@@ -31,9 +31,9 @@ jobs:
           MEGA_PASSWORD: ${{ secrets.MEGA_PASSWORD }}
         run: |
           # Upload the zip file
-          megaput --username "$MEGA_EMAIL" --password "$MEGA_PASSWORD" crDroid-daisy-v6.19.zip /
+          megaput --username "$MEGA_EMAIL" --password "$MEGA_PASSWORD" --replace ksp-crDroid-daisy-v6.19.zip /
           
           # Generate public link
-          LINK=$(megals --username "$MEGA_EMAIL" --password "$MEGA_PASSWORD" /crDroid-daisy-v6.19.zip --json | jq -r '.[0].link')
+          LINK=$(megals --username "$MEGA_EMAIL" --password "$MEGA_PASSWORD" /ksp-crDroid-daisy-v6.19.zip --json | jq -r '.[0].link')
           echo "Mega Share Link: $LINK"
           echo "MEGA_SHARE_LINK=$LINK" >> $GITHUB_ENV
