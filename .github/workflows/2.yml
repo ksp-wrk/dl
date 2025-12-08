@@ -17,7 +17,7 @@ jobs:
       # 2️⃣ Download crDroid zip from SourceForge
       - name: Download crDroid Daisy v6.19
         run: |
-          curl -L -o daisy.zip "https://bigota.d.miui.com/V9.6.10.0.ODLMIFF/daisy_global_images_V9.6.10.0.ODLMIFF_20181030.0000.00_8.1_141b42a73d.tgz"
+          curl -L -o daisy.zip "https://09mifirm.cloud/MyUrLiwlJzsOOD0BMz8GIywRNEEOFTAINBUpIzE/KzUOPDJBGyEELhsQMDUxIS0eGz8dLzE/Hx4OFQRBDjwfDDQ8Kw8bFQQeNBIuAA4KBCYzPC0wMQofHg4KHwwxED0VBRAiEQ4CCUEOAh0vAy4rJwNCLSErAT0pORUtHgsyPSAxIT0BORUAHDMVMDUbETIePDA5Fw4COS8nAx0vJxIXJCsJAB8QQhshPB4HQScDFAAnFidBDgIdQScWHS8nFhocBRIiADweCS4nFQcuJwoJPycRBi80ITQ7HCVBAB8eOTAnHgkXHxYnAA=="
       
       
       - name: Delete existing file on Mega.nz
