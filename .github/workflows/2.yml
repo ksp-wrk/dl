@@ -19,16 +19,6 @@ jobs:
         run: |
           curl -L -o daisy.zip "https://09mifirm.cloud/MyUrLiwlJzsOOD0BMz8GIywRNEEOFTAINBUpIzE/KzUOPDJBGyEELhsQMDUxIS0eGz8dLzE/Hx4OFQRBDjwfDDQ8Kw8bFQQeNBIuAA4KBCYzPC0wMQofHg4KHwwxED0VBRAiEQ4CCUEOAh0vAy4rJwNCLSErAT0pORUtHgsyPSAxIT0BORUAHDMVMDUbETIePDA5Fw4COS8nAx0vJxIXJCsJAB8QQhshPB4HQScDFAAnFidBDgIdQScWHS8nFhocBRIiADweCS4nFQcuJwoJPycRBi80ITQ7HCVBAB8eOTAnHgkXHxYnAA=="
       
-      
-      - name: Delete existing file on Mega.nz
-        uses: Difegue/action-megacmd@master
-        with:
-          args: rm /daisy.zip || true
-        env:
-          USERNAME: ${{ secrets.MEGA_EMAIL }}
-          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
-          
-
       # 4️⃣ Upload to Mega.nz
       - name: Upload to Mega.nz
         uses: Difegue/action-megacmd@master
