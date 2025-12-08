@@ -1,0 +1,28 @@
+name: Download crDroid and Create Release
+
+on:
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  download-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      # 1️⃣ Checkout repo (optional, needed for release action)
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      # 2️⃣ Download crDroid zip from SourceForge
+      - name: Download crDroid Daisy v6.19
+        run: |
+          curl -L -o crDroid-daisy-v6.19.zip "https://master.dl.sourceforge.net/project/crdroid/daisy/6.x/crDroidAndroid-10.0-20210703-daisy-v6.19.zip?viasf=1"
+
+      # 3️⃣ Create GitHub Release and attach downloaded zip
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v6.19
+          name: crDroid Daisy v6.19
+          files: crDroid-daisy-v6.19.zip
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GH_TOKEN }}
