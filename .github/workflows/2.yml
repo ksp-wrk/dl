@@ -18,7 +18,16 @@ jobs:
       - name: Download crDroid Daisy v6.19
         run: |
           curl -L -o crDroid-daisy-v6.19.zip "https://master.dl.sourceforge.net/project/crdroid/daisy/6.x/crDroidAndroid-10.0-20210703-daisy-v6.19.zip?viasf=1"
-
+      
+      
+      - name: Delete existing file on Mega.nz
+        uses: Difegue/action-megacmd@master
+        with:
+          args: rm /crDroid-daisy-v6.19.zip || true
+        env:
+          USERNAME: ${{ secrets.MEGA_EMAIL }}
+          PASSWORD: ${{ secrets.MEGA_PASSWORD }}
+          
 
       # 4️⃣ Upload to Mega.nz
       - name: Upload to Mega.nz
