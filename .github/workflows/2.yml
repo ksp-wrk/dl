@@ -24,15 +24,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y snapd
           sudo snap install mega-cmd
-      
-      # 5️⃣ Upload to Mega.nz
+          
       - name: Upload to Mega.nz
         env:
           MEGA_EMAIL: ${{ secrets.MEGA_EMAIL }}
           MEGA_PASSWORD: ${{ secrets.MEGA_PASSWORD }}
         run: |
+          export PATH=$PATH:/snap/bin
           mega-login "$MEGA_EMAIL" "$MEGA_PASSWORD"
           mega-put k-crDroid-daisy-v6.19.zip /Root/ --overwrite
           LINK=$(mega-export /Root/k-crDroid-daisy-v6.19.zip)
           echo "Mega Share Link: $LINK"
           echo "MEGA_SHARE_LINK=$LINK" >> $GITHUB_ENV
+
