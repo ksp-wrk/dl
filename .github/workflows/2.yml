@@ -17,13 +17,13 @@ jobs:
       # 2️⃣ Download crDroid zip from SourceForge
       - name: Download crDroid Daisy v6.19
         run: |
-          curl -L -o crDroid-daisy-v6.19.zip "https://master.dl.sourceforge.net/project/crdroid/daisy/6.x/crDroidAndroid-10.0-20210703-daisy-v6.19.zip?viasf=1"
+          curl -L -o daisy.zip "https://bigota.d.miui.com/V9.6.10.0.ODLMIFF/daisy_global_images_V9.6.10.0.ODLMIFF_20181030.0000.00_8.1_141b42a73d.tgz"
       
       
       - name: Delete existing file on Mega.nz
         uses: Difegue/action-megacmd@master
         with:
-          args: rm /crDroid-daisy-v6.19.zip || true
+          args: rm /daisy.zip || true
         env:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
@@ -33,7 +33,7 @@ jobs:
       - name: Upload to Mega.nz
         uses: Difegue/action-megacmd@master
         with:
-          args: put crDroid-daisy-v6.19.zip /
+          args: put daisy.zip /
         env:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
@@ -43,7 +43,7 @@ jobs:
         uses: Difegue/action-megacmd@master
         id: mega_link
         with:
-          args: export /crDroid-daisy-v6.19.zip
+          args: export /daisy.zip
         env:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
