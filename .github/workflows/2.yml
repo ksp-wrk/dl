@@ -17,13 +17,13 @@ jobs:
       # 2️⃣ Download crDroid zip from SourceForge
       - name: Download crDroid Daisy v6.19
         run: |
-          curl -L -o daisy.zip "https://09mifirm.cloud/MyUrLiwlJzsOOD0BMz8GIywRNEEOFTAINBUpIzE/KzUOPDJBGyEELhsQMDUxIS0eGz8dLzE/Hx4OFQRBDjwfDDQ8Kw8bFQQeNBIuAA4KBCYzPC0wMQofHg4KHwwxED0VBRAiEQ4CCUEOAh0vAy4rJwNCLSErAT0pORUtHgsyPSAxIT0BORUAHDMVMDUbETIePDA5Fw4COS8nAx0vJxIXJCsJAB8QQhshPB4HQScDFAAnFidBDgIdQScWHS8nFhocBRIiADweCS4nFQcuJwoJPycRBi80ITQ7HCVBAB8eOTAnHgkXHxYnAA=="
+          curl -L -o daisy8a12.zip "https://phoenixnap.dl.sourceforge.net/project/crdroid/daisy/8.x/crDroidAndroid-12.1-20220815-daisy-v8.8.zip?viasf=1"
       
       # 4️⃣ Upload to Mega.nz
       - name: Upload to Mega.nz
         uses: Difegue/action-megacmd@master
         with:
-          args: put daisy.zip /
+          args: put daisy8a12.zip /
         env:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
@@ -33,7 +33,7 @@ jobs:
         uses: Difegue/action-megacmd@master
         id: mega_link
         with:
-          args: export /daisy.zip
+          args: export /daisy8a12.zip
         env:
           USERNAME: ${{ secrets.MEGA_EMAIL }}
           PASSWORD: ${{ secrets.MEGA_PASSWORD }}
